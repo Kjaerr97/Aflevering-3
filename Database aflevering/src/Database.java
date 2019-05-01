@@ -9,9 +9,10 @@ public class Database implements IGameDAO {
                 "username", "password"); // indsæt egne værdier her
 
     }
-
-
-
-
     
+
+
+
+
+
 }
