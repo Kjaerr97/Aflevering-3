@@ -82,4 +82,44 @@ public class Database implements databaseDAO {
         }
         return false;
     }
+
+
+
+
+    // Under modificering
+    public boolean updateComodityBatch(ComodityBatch comodityBatch) {
+        try {
+            Connection connection = createConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE comodityBatch SET commodityBatch_ID=?," +
+                    " productleader_ID=?, Commodity_ID=? WHERE commodityBatch_ID=?"+ getCommodityBatch_ID);
+            ps.setInt(1, comodityBatch.getcomodityBatch_ID());
+            ps.setInt(2, comodityBatch.getProductleader_ID());
+            ps.setInt(3, comodityBatch.getComodity_ID());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
