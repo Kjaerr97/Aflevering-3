@@ -54,7 +54,7 @@ public class Database implements databaseDAO {
         Connection connection = connector.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM recpie WHERE id=" + id);
+            int i = stmt.executeUpdate("DELETE FROM recpie WHERE recipeIDid=" + getRecipeID);
             if (i == 1) {
                 return true;
             }
