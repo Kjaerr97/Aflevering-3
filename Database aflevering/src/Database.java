@@ -1,7 +1,9 @@
+import DTO.CommodityDTO;
 import DTO.RecipeDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Database  {
 
@@ -71,21 +73,21 @@ public class Database  {
 
     }
 
-    public List<IComodityDTO> getComodityStatus() throws DALException {
+    public List<CommodityDTO> getCommodityStatus() throws DALException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
             ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
 
-            List<IComodityDTO> comodities = new ArrayList<>();
+            List<CommodityDTO> commodities = new ArrayList<>();
             while (resultset.next()) {
-                IComodityDTO comodity = new ComodityDTO();
+                CommodityDTO commodity = new CommodityDTO();
                 // comodity.setComodityId(resultset.getInt("comodity_id"));
-                comodity.setItem(resultset.getString("item"));
-                comodity.setAmount(resultset.getInt("amount"));
-                comodities.add(comodity);
+                commodity.setCommodityName(resultset.getString("item"));
+                commodity.setAmount(resultset.getInt("amount"));
+                commodities.add(commodity);
 
             }
-            return comodities;
+            return commodities;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }

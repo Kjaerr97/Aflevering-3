@@ -1,45 +1,52 @@
 package DTO;
 
 public class CommodityDTO implements ICommodityDTO {
+    private int ingredientsID;
+    private String commodityName;
+    private int commodityBatchID;
+    private int amount;
+
 
 
     @Override
-    public int getCommodity_ID() {
-        return 0;
+    public String getCommodityName() {
+        return commodityName;
     }
 
     @Override
-    public void setCommodity_ID(int commodity_ID) {
-
-    }
-
-    @Override
-    public int getProduct_ID() {
-        return 0;
-    }
-
-    @Override
-    public void setProduct_ID(int Product_ID) {
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
 
     }
 
     @Override
-    public int getIngrediens() {
-        return 0;
+    public int getIngredients() {
+        return ingredientsID;
     }
 
     @Override
-    public void setIngrediens_ID(int ingrediens_id) {
+    public void setIngredientsID(int ingredientsID) {
+        this.ingredientsID = ingredientsID;
+    }
+
+    @Override
+    public int getCommodityBatchID() {
+        return commodityBatchID;
+    }
+
+    @Override
+    public void setCommodityBatchID(int commodityBatchID) {
+        this.commodityBatchID = commodityBatchID;
 
     }
 
     @Override
-    public int getCommidityBatch_ID() {
-        return 0;
+    public int getAmount() {
+        return amount;
     }
 
     @Override
-    public void setCommodityBatch_ID(int commodityBatch_id) {
-
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

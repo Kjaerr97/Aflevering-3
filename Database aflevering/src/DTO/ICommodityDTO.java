@@ -2,32 +2,21 @@ package DTO;
 
 public interface ICommodityDTO {
 
-    int getCommodity_ID();
+    String getCommodityName();
 
+    void setCommodityName(String commodityName);
 
-    void setCommodity_ID(int commodity_ID);
+    int getIngredients();
 
+    void setIngredientsID(int ingredientsID);
 
-    int getProduct_ID();
+    int getCommodityBatchID();
 
-    void setProduct_ID(int Product_ID);
+    void setCommodityBatchID(int commodityBatchID);
 
-    int getIngrediens();
+    int getAmount();
 
-    void setIngrediens_ID(int ingrediens_id);
-
-    int getCommidityBatch_ID();
-
-    void setCommodityBatch_ID(int commodityBatch_id);
-
-
-
-
-
-
-
-
-
+    void setAmount(int amount);
 
 
 
