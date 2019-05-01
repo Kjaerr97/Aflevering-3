@@ -31,11 +31,10 @@ public class Database implements databaseDAO {
 
     // Under modificering
     public Recipe getRecipe(int id) {
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
         try {
+            Connection connection = createConnection();
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipies WHERE recipeID=" + getRecipeID);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipies WHERE recipeID=" + getRecipe_ID);
             if (rs.next()) {
                 Recipe recipe = new Recipe();
                 recipe.setRecipe_ID(rs.getRecipe_ID("Recipe_ID"));
@@ -52,11 +51,10 @@ public class Database implements databaseDAO {
 
     // Under modificering
     public boolean deleteRecpie(int id) {
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
         try {
+            Connection connection = createConnection();
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM recpie WHERE recipeIDid=" + getRecipeID);
+            int i = stmt.executeUpdate("DELETE FROM recpie WHERE recipeIDid=" + getRecipe_ID);
             if (i == 1) {
                 return true;
             }
@@ -66,15 +64,15 @@ public class Database implements databaseDAO {
         return false;
 
     }
+
+    // Unnder modificering
     public boolean updateRecipe(Recipe recipe) {
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
         try {
+            Connection connection = createConnection();
             PreparedStatement ps = connection.prepareStatement("UPDATE recipe SET name=?, pass=?, age=? WHERE id=?");
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getPass());
-            ps.setInt(3, user.getAge());
-            ps.setInt(4, user.getId());
+            ps.setInt(1, recipe.getRecipe_ID());
+            ps.setInt(2, recipe.getIngrediens_ID());
+            ps.setInt(3, recipe.getDate());
             int i = ps.executeUpdate();
             if(i == 1) {
                 return true;
