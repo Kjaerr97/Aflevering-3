@@ -26,4 +26,43 @@ public class Database implements databaseDAO {
 
 
     }
+
+    // Under modificering
+    public Recipe getRecipe(int id) {
+        Connector connector = new Connector();
+        Connection connection = connector.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipies WHERE recipeID=" + getRecipeID);
+            if (rs.next()) {
+                Recipe recipe = new Recipe();
+                recipe.setRecipe_ID(rs.getRecipe_ID("Recipe_ID"));
+                recipe.setIngrediens_ID(rs.getInt("Ingrediens_ID"));
+                recipe.setDate(rs.getDate("Date"));
+                return recipe;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
+    // Under modificering
+    public boolean deleteRecpie(int id) {
+        Connector connector = new Connector();
+        Connection connection = connector.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            int i = stmt.executeUpdate("DELETE FROM recpie WHERE id=" + id);
+            if (i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+
+
+    }
 }
