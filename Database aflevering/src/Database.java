@@ -1,6 +1,9 @@
-import java.sql.*;
+import DTO.RecipeDTO;
 
-public class Database implements databaseDAO {
+import java.sql.*;
+import java.util.ArrayList;
+
+public class Database  {
 
     private Connection createConnection() throws SQLException {
         return DriverManager.getConnection("database URL",
@@ -8,15 +11,16 @@ public class Database implements databaseDAO {
 
     }
 
-    public void createRecipe() {
+    public void createRecipe(RecipeDTO recipeDTO) {
 
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
 
-            PreparedStatement createRecipe = connection.prepareStatement(
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO recipe (getIngredienceRecipeID, produkt_ID, dato) VALUES(?,?,?);");
 
-            createRecipe.setInt(getIngredienceRecipeID);
+            preparedStatement.setInt(1,recipeDTO.getIngredientsID());
+            preparedStatement.setInt(2,recipeDTO.getProductID);
 
 
             connection.commit();
@@ -26,6 +30,7 @@ public class Database implements databaseDAO {
 
 
     }
+
 
     // Under modificering
     public Recipe getRecipe(int id) {
@@ -64,5 +69,25 @@ public class Database implements databaseDAO {
         return false;
 
 
+    }
+
+    public List<IComodityDTO> getComodityStatus() throws DALException {
+        try (Connection c = createConnection()) {
+            Statement statement = c.createStatement();
+            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
+
+            List<IComodityDTO> comodities = new ArrayList<>();
+            while (resultset.next()) {
+                IComodityDTO comodity = new ComodityDTO();
+                // comodity.setComodityId(resultset.getInt("comodity_id"));
+                comodity.setItem(resultset.getString("item"));
+                comodity.setAmount(resultset.getInt("amount"));
+                comodities.add(comodity);
+
+            }
+            return comodities;
+        } catch (SQLException e) {
+            throw new DALException(e.getMessage());
+        }
     }
 }
