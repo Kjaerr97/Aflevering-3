@@ -65,6 +65,23 @@ public class Database implements databaseDAO {
         }
         return false;
 
-
+    }
+    public boolean updateRecipe(Recipe recipe) {
+        Connector connector = new Connector();
+        Connection connection = connector.getConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE recipe SET name=?, pass=?, age=? WHERE id=?");
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPass());
+            ps.setInt(3, user.getAge());
+            ps.setInt(4, user.getId());
+            int i = ps.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
