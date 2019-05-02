@@ -1,21 +1,16 @@
 package DTO;
 
 
+import java.util.List;
+
 public class RecipeDTO implements IrecipeDTO {
-    private int ingredientsID;
+
     private int productID;
-    private String dato;
+    private String date;
+    private List<String> ingredients;
+    private int recipeID;
 
-    @Override
-    public int getIngredientsID() {
-        return ingredientsID;
-    }
 
-    @Override
-    public void setIngredientsID(int ingredientsID) {
-        this.ingredientsID = ingredientsID;
-
-    }
 
     @Override
     public int getProductID() {
@@ -28,13 +23,28 @@ public class RecipeDTO implements IrecipeDTO {
 
     }
     @Override
-    public String getDato() {
-        return dato;
+    public String getDate() {
+        return date;
     }
 
     @Override
-    public void setDato(String Dato) {
-        this.dato = dato;
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    @Override
+    public void setIngredients(List<String> ingredients) {
+
+    }
+
+    @Override
+    public void setDate(String Date) {
+
+    }
+
+    @Override
+    public int getRecipeID() {
+        return recipeID;
     }
 }
 

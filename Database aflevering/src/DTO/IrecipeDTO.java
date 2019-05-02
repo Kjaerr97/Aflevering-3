@@ -1,18 +1,25 @@
 package DTO;
 
+import java.util.List;
+
 public interface IrecipeDTO {
 
-    int getIngredientsID();
 
-    void setIngredientsID(int ingredientsID);
 
     int getProductID();
 
     void setProductID(int productID);
 
-    String getDato();
+    String getDate();
 
-    void setDato(String Dato);
+    void setDate(String Date);
+
+    List<String> getIngredients();
+
+    void setIngredients(List<String> ingredients);
+
+    int getRecipeID();
+
 
 
 

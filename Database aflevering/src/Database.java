@@ -92,4 +92,27 @@ public class Database  {
             throw new DALException(e.getMessage());
         }
     }
+    public void updateRecipe(RecipeDTO recipe) {
+
+        try (Connection conn = createConnection()) {
+            conn.setAutoCommit(false);
+            PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
+                                                                                   " WHERE recipe_id = ?");
+
+            updateRecipe.setString(1, recipe.getDate());
+            updateRecipe.setInt(2, recipe.getRecipeID());
+            updateRecipe.executeUpdate();
+
+            for(int i = 0; i < recipe.getIngredients().size(); i++) {
+                PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
+                                                                              " ingredients_id = ? WHERE recipe_id = ?");
+                updateIngredients.setString(1,recipe.getIngredientName.get(i));
+                updateIngredients.setInt(2,recipe.getRecipeID());
+                updateIngredients.executeUpdate();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            System.out.println("Couldn't update recipe" + e.getMessage());
+        }
+    }
 }
