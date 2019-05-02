@@ -24,6 +24,6 @@ public interface IrecipeDTO {
 
     void setRecipeID(int recipeID);
 
-    void addRecipe(String ingredientName);
+    void addIngredient(String ingredientName);
     }
 

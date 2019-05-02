@@ -1,4 +1,5 @@
 import DTO.CommodityDTO;
+import DTO.ProductbatchDTO;
 import DTO.RecipeDTO;
 
 import java.sql.*;
@@ -52,13 +53,13 @@ public class Database  {
             recipe.setProductID(resultset.getInt("product_id"));
             recipe.setDate(resultset.getString("date"));
             while (resultset.next()) {
-                recipe.addRecipe(resultset.getString("ingredient_name"));
+                recipe.addIngredient(resultset.getString("ingredient_name"));
 
             }
             return recipe;
         } catch (SQLException e) {
-            throw new DALException(e.getMessage());
-        }
+            e.printStackTrace();
+        } return null; // få lige fikset det her
 
     }
 
@@ -84,13 +85,26 @@ public class Database  {
 
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
+
+
+
+            PreparedStatement saveAsOldRecipe = conn.prepareStatement("INSERT INTO oldRecepies" +
+                                                                        " (recipe_id, date) " +
+                                                                         "VALUES (?,?)");
+            saveAsOldRecipe.setInt(1,recipe.getRecipeID());
+            saveAsOldRecipe.setString(2,recipe.getDate());
+            
+
+
+
+
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
                                                                                    " WHERE recipe_id = ?");
 
             updateRecipe.setString(1, recipe.getDate());
             updateRecipe.setInt(2, recipe.getRecipeID());
             updateRecipe.executeUpdate();
-// kald getRecipemetode for at gemme gammel opskrift
+
             for(int i = 0; i < recipe.getIngredients().size(); i++) {
                 PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
                                                                               " ingredients_id = ? WHERE recipe_id = ?");
@@ -122,5 +136,24 @@ public class Database  {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // Create productbatches
+    public void createProductbatch(ProductbatchDTO productbatchDTO) throws SQLException {
+
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO Productbatch (X, X, X) VALUES(?,?,?);");
+
+            preparedStatement.setInt();
+            preparedStatement.setInt();
+
+            connection.commit();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
