@@ -6,4 +6,8 @@ public interface IProductbatchDTO {
 
     void setProductID(int productID);
 
+    int getProductbatchID();
+
+    void setProductbatchID();
+
 }

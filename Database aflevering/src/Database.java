@@ -139,16 +139,16 @@ public class Database  {
     }
 
     // Create productbatches
-    public void createProductbatch(ProductbatchDTO productbatchDTO) throws SQLException {
+    public void createProductbatch(ProductbatchDTO ProductbatchDTO) throws SQLException {
 
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Productbatch (X, X, X) VALUES(?,?,?);");
+                    "INSERT INTO Productbatch (Productbatch_id, Product_id) VALUES(?,?);");
 
-            preparedStatement.setInt();
-            preparedStatement.setInt();
+            preparedStatement.setInt(1,ProductbatchDTO.getProductbatchID());
+            preparedStatement.setInt(2,ProductbatchDTO.getProductID());
 
             connection.commit();
         } catch(SQLException e) {
