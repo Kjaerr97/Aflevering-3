@@ -61,8 +61,8 @@ public class RecipeDTO implements IrecipeDTO {
     }
 
     @Override
-    public void addRole(String ingredientName) {
-        this.ingredientName = ingredientName;
+    public void addRecipe(String ingredientName) {
+        this.ingredients.add(ingredientName);
 
     }
 

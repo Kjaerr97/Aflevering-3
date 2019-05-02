@@ -52,10 +52,10 @@ public class Database  {
             recipe.setProductID(resultset.getInt("product_id"));
             recipe.setDate(resultset.getString("date"));
             while (resultset.next()) {
-                recipe.getIngredients().add((resultset.getString("role")));
+                recipe.addRecipe(resultset.getString("ingredient_name"));
 
             }
-            return user;
+            return recipe;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }

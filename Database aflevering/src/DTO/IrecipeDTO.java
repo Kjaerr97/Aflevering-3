@@ -24,6 +24,6 @@ public interface IrecipeDTO {
 
     void setRecipeID(int recipeID);
 
-    void addRole(String ingredientName);
+    void addRecipe(String ingredientName);
     }
 
