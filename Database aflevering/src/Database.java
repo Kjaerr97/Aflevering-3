@@ -1,4 +1,5 @@
 import DTO.CommodityDTO;
+import DTO.ProductbatchDTO;
 import DTO.RecipeDTO;
 
 import java.sql.*;
@@ -135,5 +136,24 @@ public class Database  {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // Create productbatches
+    public void createProductbatch(ProductbatchDTO productbatchDTO) throws SQLException {
+
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO Productbatch (X, X, X) VALUES(?,?,?);");
+
+            preparedStatement.setInt();
+            preparedStatement.setInt();
+
+            connection.commit();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
