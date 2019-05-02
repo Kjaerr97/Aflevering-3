@@ -57,8 +57,8 @@ public class Database  {
             }
             return recipe;
         } catch (SQLException e) {
-            throw new DALException(e.getMessage());
-        }
+            e.printStackTrace();
+        } return null; // få lige fikset det her
 
     }
 
@@ -84,13 +84,26 @@ public class Database  {
 
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
+
+
+
+            PreparedStatement saveAsOldRecipe = conn.prepareStatement("INSERT INTO oldRecepies" +
+                                                                        " (recipe_id, date) " +
+                                                                         "VALUES (?,?)");
+            saveAsOldRecipe.setInt(1,recipe.getRecipeID());
+            saveAsOldRecipe.setString(2,recipe.getDate());
+            
+
+
+
+
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
                                                                                    " WHERE recipe_id = ?");
 
             updateRecipe.setString(1, recipe.getDate());
             updateRecipe.setInt(2, recipe.getRecipeID());
             updateRecipe.executeUpdate();
-// kald getRecipemetode for at gemme gammel opskrift
+
             for(int i = 0; i < recipe.getIngredients().size(); i++) {
                 PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
                                                                               " ingredients_id = ? WHERE recipe_id = ?");
