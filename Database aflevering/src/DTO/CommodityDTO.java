@@ -5,7 +5,7 @@ public class CommodityDTO implements ICommodityDTO {
     private String commodityName;
     private int commodityBatchID;
     private int amount;
-
+    private int commodityID;
 
 
     @Override
@@ -48,5 +48,15 @@ public class CommodityDTO implements ICommodityDTO {
     @Override
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public int getCommodityID() {
+        return commodityID;
+    }
+
+    @Override
+    public void setCommodityID(int commodityID) {
+        this.commodityID = commodityID;
     }
 }

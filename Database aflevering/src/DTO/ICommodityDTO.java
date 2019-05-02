@@ -18,6 +18,9 @@ public interface ICommodityDTO {
 
     void setAmount(int amount);
 
+    int getCommodityID();
+
+    void setCommodityID(int commodityID);
 
 
 

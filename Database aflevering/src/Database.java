@@ -1,4 +1,5 @@
 import DTO.CommodityDTO;
+import DTO.CommoditybatchDTO;
 import DTO.ProductbatchDTO;
 import DTO.RecipeDTO;
 
@@ -156,4 +157,24 @@ public class Database  {
         }
 
     }
+
+
+    public void createCommoditybatch(CommoditybatchDTO commoditybatchDTO){
+
+        try (Connection connection = createConnection()){
+            connection.setAutoCommit(false);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO Commoditybatch (Commoditybatch_id, Commodity_id) VALUES(?,?);");
+
+            preparedStatement.setInt(1,commoditybatchDTO.getCommodityBatchID());
+            preparedStatement.setInt(2,commoditybatchDTO.getCommodityID());
+
+            connection.commit();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
 }
