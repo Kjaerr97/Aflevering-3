@@ -22,7 +22,7 @@ public class Database  {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO recipe (Ingredients_id, Product_id, Date) VALUES(?,?,?);");
 
-            preparedStatement.setInt(1, recipeDTO.getIngredients());
+            preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
             preparedStatement.setString(3, recipeDTO.getDate());
 
