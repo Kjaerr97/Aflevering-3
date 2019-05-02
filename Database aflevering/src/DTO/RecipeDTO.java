@@ -9,6 +9,7 @@ public class RecipeDTO implements IrecipeDTO {
     private String date;
     private List<String> ingredients;
     private int recipeID;
+    private String ingredientName;
 
 
 
@@ -45,6 +46,11 @@ public class RecipeDTO implements IrecipeDTO {
     @Override
     public int getRecipeID() {
         return recipeID;
+    }
+
+    @Override
+    public String getIngredientName() {
+        return ingredientName;
     }
 }
 

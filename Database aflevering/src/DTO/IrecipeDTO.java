@@ -20,6 +20,8 @@ public interface IrecipeDTO {
 
     int getRecipeID();
 
+    String getIngredientName();
+
 
 
 

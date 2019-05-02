@@ -33,64 +33,53 @@ public class Database  {
 
     }
 
+    public IUserDTO getUser(int userId) throws DALException {
+        ResultSet resultset = null;
 
-    // Under modificering
-    public Recipe getRecipe(int id) {
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipies WHERE recipeID=" + getRecipeID);
-            if (rs.next()) {
-                Recipe recipe = new Recipe();
-                recipe.setRecipe_ID(rs.getRecipe_ID("Recipe_ID"));
-                recipe.setIngrediens_ID(rs.getInt("Ingrediens_ID"));
-                recipe.setDate(rs.getDate("Date"));
-                return recipe;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+        //TODO Implement this - should retrieve a user from db and parse it to a UserDTO
+        try (Connection conn = createConnection()) {
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT user.user_id, user.user_name," +
+                    " user.ini, roles.role FROM user left JOIN " +
+                    "roles ON user.user_id = roles.user_id " +
+                    " WHERE user.user_id = ?");
+            preparedStatement.setInt(1, userId);
+            resultset = preparedStatement.executeQuery();
 
 
-    // Under modificering
-    public boolean deleteRecpie(int id) {
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM recpie WHERE recipeIDid=" + getRecipeID);
-            if (i == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-
-
-    }
-
-    public List<CommodityDTO> getCommodityStatus() throws DALException {
-        try (Connection c = createConnection()) {
-            Statement statement = c.createStatement();
-            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
-
-            List<CommodityDTO> commodities = new ArrayList<>();
+            //TODO: Make a user from the resultset
+            IUserDTO user = new UserDTO();
+            resultset.next();
+            user.setUserId(resultset.getInt("user_id"));
+            user.setUserName(resultset.getString("user_name"));
+            user.setIni(resultset.getString("ini"));
             while (resultset.next()) {
-                CommodityDTO commodity = new CommodityDTO();
-                // comodity.setComodityId(resultset.getInt("comodity_id"));
-                commodity.setCommodityName(resultset.getString("item"));
-                commodity.setAmount(resultset.getInt("amount"));
-                commodities.add(commodity);
+                user.addRole(resultset.getString("role"));
 
             }
-            return commodities;
+            return user;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
+
+    }
+
+
+
+    public void deleteRecipe(int recipeID){
+        try (Connection conn = createConnection()) {
+            conn.setAutoCommit(false);
+            PreparedStatement delete = conn.prepareStatement("DELETE FROM recipe " +
+                    " WHERE recipe_id = ?");
+            delete.setInt(1, recipeID);
+
+            delete = conn.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe_id = ?");
+            delete.setInt(1, recipeID);
+
+            conn.commit();
+        } catch (SQLException e) {
+            System.out.println("couldn't delete user" + e.getMessage());
+
+      }
     }
     public void updateRecipe(RecipeDTO recipe) {
 
@@ -106,13 +95,33 @@ public class Database  {
             for(int i = 0; i < recipe.getIngredients().size(); i++) {
                 PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
                                                                               " ingredients_id = ? WHERE recipe_id = ?");
-                updateIngredients.setString(1,recipe.getIngredientName.get(i));
+                updateIngredients.setString(1,recipe.getIngredients().get(i));
                 updateIngredients.setInt(2,recipe.getRecipeID());
                 updateIngredients.executeUpdate();
             }
             conn.commit();
         } catch (SQLException e) {
             System.out.println("Couldn't update recipe" + e.getMessage());
+        }
+    }
+    public List<CommodityDTO> getCommodityStatus() throws SQLException {
+        try (Connection c = createConnection()) {
+            Statement statement = c.createStatement();
+            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
+
+            List<CommodityDTO> commodities = new ArrayList<>();
+            while (resultset.next()) {
+                CommodityDTO commodity = new CommodityDTO();
+                // comodity.setComodityId(resultset.getInt("comodity_id"));
+                commodity.setCommodityName(resultset.getString("item"));
+                commodity.setAmount(resultset.getInt("amount"));
+                commodities.add(commodity);
+
+            }
+            return commodities;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
