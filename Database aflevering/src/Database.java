@@ -53,7 +53,7 @@ public class Database  {
             recipe.setProductID(resultset.getInt("product_id"));
             recipe.setDate(resultset.getString("date"));
             while (resultset.next()) {
-                recipe.addRecipe(resultset.getString("ingredient_name"));
+                recipe.addIngredient(resultset.getString("ingredient_name"));
 
             }
             return recipe;
