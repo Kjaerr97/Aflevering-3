@@ -5,5 +5,5 @@ public interface IOldRecipe {
     int getVersion();
 
     int getRecipeID();
-    
+
 }
