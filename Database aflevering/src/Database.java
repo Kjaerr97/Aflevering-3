@@ -45,6 +45,7 @@ public class Database  {
             resultset = preparedStatement.executeQuery();
 
 
+
             RecipeDTO recipe = new RecipeDTO();
             resultset.next();
             recipe.setRecipeID(resultset.getInt("recipe_id"));
@@ -84,10 +85,14 @@ public class Database  {
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
             String oldDate;
+            ResultSet resultset = null;
 
             PreparedStatement oldDatestmt = conn.prepareStatement("SELECT date FROM recipe where recipe_id = ? ");
-            oldDatestmt.setInt(1, );
-            resultset = preparedStatement.executeQuery();
+            oldDatestmt.setInt(1,recipe.getRecipeID());
+            resultset = oldDatestmt.executeQuery();
+            oldDate = setString
+
+
 
 
 
