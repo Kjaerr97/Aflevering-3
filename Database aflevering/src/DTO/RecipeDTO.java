@@ -35,11 +35,13 @@ public class RecipeDTO implements IrecipeDTO {
 
     @Override
     public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
 
     }
 
     @Override
     public void setDate(String Date) {
+        this.date = date;
 
     }
 
@@ -52,5 +54,17 @@ public class RecipeDTO implements IrecipeDTO {
     public String getIngredientName() {
         return ingredientName;
     }
+
+    @Override
+    public void setRecipeID(int recipeID) {
+        this.recipeID = recipeID;
+    }
+
+    @Override
+    public void addRole(String ingredientName) {
+        this.ingredientName = ingredientName;
+
+    }
+
 }
 

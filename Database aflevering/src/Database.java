@@ -33,27 +33,26 @@ public class Database  {
 
     }
 
-    public IUserDTO getUser(int userId) throws DALException {
+    public RecipeDTO getRecipe(int recipeID) {
         ResultSet resultset = null;
 
-        //TODO Implement this - should retrieve a user from db and parse it to a UserDTO
         try (Connection conn = createConnection()) {
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT user.user_id, user.user_name," +
-                    " user.ini, roles.role FROM user left JOIN " +
-                    "roles ON user.user_id = roles.user_id " +
-                    " WHERE user.user_id = ?");
-            preparedStatement.setInt(1, userId);
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT recipe.recipe_id," +
+                                                                            "product_id," +
+                                                                            "date FROM recipe_ingredients INNER JOIN recipe_id " +
+                                                                            "ON recipe.recipe_id = recipe_ingredients.recipe_id " +
+                                                                            "WHERE recipe.recipe_id = ?");
+            preparedStatement.setInt(1, recipeID);
             resultset = preparedStatement.executeQuery();
 
 
-            //TODO: Make a user from the resultset
-            IUserDTO user = new UserDTO();
+            RecipeDTO recipe = new RecipeDTO();
             resultset.next();
-            user.setUserId(resultset.getInt("user_id"));
-            user.setUserName(resultset.getString("user_name"));
-            user.setIni(resultset.getString("ini"));
+            recipe.setRecipeID(resultset.getInt("recipe_id"));
+            recipe.setProductID(resultset.getInt("product_id"));
+            recipe.setDate(resultset.getString("date"));
             while (resultset.next()) {
-                user.addRole(resultset.getString("role"));
+                recipe.getIngredients().add((resultset.getString("role")));
 
             }
             return user;
@@ -91,7 +90,7 @@ public class Database  {
             updateRecipe.setString(1, recipe.getDate());
             updateRecipe.setInt(2, recipe.getRecipeID());
             updateRecipe.executeUpdate();
-
+// kald getRecipemetode for at gemme gammel opskrift
             for(int i = 0; i < recipe.getIngredients().size(); i++) {
                 PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
                                                                               " ingredients_id = ? WHERE recipe_id = ?");
