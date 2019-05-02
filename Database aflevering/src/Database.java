@@ -20,18 +20,16 @@ public class Database  {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (getIngredienceRecipeID, produkt_ID, dato) VALUES(?,?,?);");
+                    "INSERT INTO recipe (Ingredients_id, Product_id, Date) VALUES(?,?,?);");
 
-            preparedStatement.setInt(1,recipeDTO.getIngredientsID());
-            preparedStatement.setInt(2,recipeDTO.getProductID);
-
+            preparedStatement.setInt(1, recipeDTO.getIngredients());
+            preparedStatement.setInt(2,recipeDTO.getProductID());
+            preparedStatement.setString(3, recipeDTO.getDate());
 
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public RecipeDTO getRecipe(int recipeID) {
@@ -154,6 +152,5 @@ public class Database  {
         } catch(SQLException e) {
             e.printStackTrace();
         }
-
     }
 }
