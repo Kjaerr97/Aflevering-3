@@ -85,6 +85,11 @@ public class Database  {
 
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
+            String oldDate;
+
+            PreparedStatement oldDatestmt = conn.prepareStatement("SELECT date FROM recipe where recipe_id = ? ");
+            oldDatestmt.setInt(1, );
+            resultset = preparedStatement.executeQuery();
 
 
 
@@ -117,6 +122,7 @@ public class Database  {
             System.out.println("Couldn't update recipe" + e.getMessage());
         }
     }
+
     public List<CommodityDTO> getCommodityStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
@@ -156,4 +162,6 @@ public class Database  {
         }
 
     }
+
+
 }
