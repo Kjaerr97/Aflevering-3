@@ -84,23 +84,10 @@ public class Database  {
 
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
-            String oldDate;
-            ResultSet resultset = null;
-//Gemmer datoen for at kunne overføre den til oldRecipe
 
-            PreparedStatement oldDatestmt = conn.prepareStatement("SELECT date FROM recipe where recipe_id = ? ");
+            PreparedStatement oldDatestmt = conn.prepareStatement("INSERT INTO oldRecipies SELECT * FROM" +
+                                                                      " recipe where recipe_id = ? ");
             oldDatestmt.setInt(1,recipe.getRecipeID());
-            resultset = oldDatestmt.executeQuery();
-            oldDate = setString
-
-
-//indsætter data i oldRecipe
-            PreparedStatement saveAsOldRecipe = conn.prepareStatement("INSERT INTO oldRecepies" +
-                                                                        " (recipe_id, date) " +
-                                                                         "VALUES (?,?)");
-            saveAsOldRecipe.setInt(1,recipe.getRecipeID());
-            saveAsOldRecipe.setString(2,recipe.getDate());
-            
 
 //Begynder på de reelle update medtode
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
@@ -145,7 +132,7 @@ public class Database  {
     }
 
    
-    public void createProductbatch(ProductbatchDTO ProductbatchDTO) throws SQLException {
+    public void createProductbatch(ProductbatchDTO productbatchDTO) throws SQLException {
 
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
@@ -153,8 +140,8 @@ public class Database  {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO Productbatch (Productbatch_id, Product_id) VALUES(?,?);");
 
-            preparedStatement.setInt(1,ProductbatchDTO.getProductbatchID());
-            preparedStatement.setInt(2,ProductbatchDTO.getProductID());
+            preparedStatement.setInt(1,productbatchDTO.getProductbatchID());
+            preparedStatement.setInt(2,productbatchDTO.getProductID());
 
             connection.commit();
         } catch(SQLException e) {
