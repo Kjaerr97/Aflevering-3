@@ -139,10 +139,9 @@ public class Database  {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Productbatch (Productbatch_id, Product_id) VALUES(?,?);");
+                    "INSERT INTO productbatch (product_id) VALUES(?);");
 
-            preparedStatement.setInt(1,productbatchDTO.getProductbatchID());
-            preparedStatement.setInt(2,productbatchDTO.getProductID());
+            preparedStatement.setInt(1,productbatchDTO.getProductID());
 
             connection.commit();
         } catch(SQLException e) {
@@ -156,10 +155,9 @@ public class Database  {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Commoditybatch (Commoditybatch_id, Commodity_id) VALUES(?,?);");
+                    "INSERT INTO commoditybatch (commodity_id) VALUES(?);");
 
-            preparedStatement.setInt(1,commoditybatchDTO.getCommodityBatchID());
-            preparedStatement.setInt(2,commoditybatchDTO.getCommodityID());
+            preparedStatement.setInt(1,commoditybatchDTO.getCommodityID());
 
             connection.commit();
         }catch (SQLException e){
