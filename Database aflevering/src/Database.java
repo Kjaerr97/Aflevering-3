@@ -110,20 +110,18 @@ public class Database  {
             System.out.println("Couldn't update recipe" + e.getMessage());
         }
     }
-
+// udskriver hvert item og antal for hvert item
     public List<CommodityDTO> getCommodityStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
-            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
+            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM commodity");
 
             List<CommodityDTO> commodities = new ArrayList<>();
             while (resultset.next()) {
                 CommodityDTO commodity = new CommodityDTO();
-                // comodity.setComodityId(resultset.getInt("comodity_id"));
                 commodity.setCommodityName(resultset.getString("item"));
                 commodity.setAmount(resultset.getInt("amount"));
                 commodities.add(commodity);
-
             }
             return commodities;
         } catch (SQLException e) {
