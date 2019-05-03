@@ -22,7 +22,7 @@ public class Database  {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO recipe (Ingredients_id, Product_id, Date) VALUES(?,?,?);");
 
-            preparedStatement.setInt(1, recipeDTO.getIngredients());
+            preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
             preparedStatement.setString(3, recipeDTO.getDate());
 
@@ -43,6 +43,7 @@ public class Database  {
                                                                             "WHERE recipe.recipe_id = ?");
             preparedStatement.setInt(1, recipeID);
             resultset = preparedStatement.executeQuery();
+
 
 
             RecipeDTO recipe = new RecipeDTO();
@@ -84,13 +85,16 @@ public class Database  {
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
             String oldDate;
+            ResultSet resultset = null;
+//Gemmer datoen for at kunne overføre den til oldRecipe
 
             PreparedStatement oldDatestmt = conn.prepareStatement("SELECT date FROM recipe where recipe_id = ? ");
-            oldDatestmt.setInt(1, );
-            resultset = preparedStatement.executeQuery();
+            oldDatestmt.setInt(1,recipe.getRecipeID());
+            resultset = oldDatestmt.executeQuery();
+            oldDate = setString
 
 
-
+//indsætter data i oldRecipe
             PreparedStatement saveAsOldRecipe = conn.prepareStatement("INSERT INTO oldRecepies" +
                                                                         " (recipe_id, date) " +
                                                                          "VALUES (?,?)");
@@ -98,9 +102,7 @@ public class Database  {
             saveAsOldRecipe.setString(2,recipe.getDate());
             
 
-
-
-
+//Begynder på de reelle update medtode
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
                                                                                    " WHERE recipe_id = ?");
 
@@ -142,7 +144,7 @@ public class Database  {
         }
     }
 
-    // Create productbatches
+   
     public void createProductbatch(ProductbatchDTO ProductbatchDTO) throws SQLException {
 
         try (Connection connection = createConnection()) {
