@@ -21,7 +21,7 @@ public class Database  {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (Ingredients_id, Product_id, Date) VALUES(?,?,?);");
+                    "INSERT INTO recipe (Ingredients_id, Product_id, date) VALUES(?,?,?);");
 
             preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
@@ -129,6 +129,18 @@ public class Database  {
             return null;
         }
     }
+// Skal udskrive hver commoditybatchID med hvilken varenavn og antal tilbage i batchen. hvordan?
+    public List<CommoditybatchDTO> getCommodityBatchStatus() throws SQLException {
+        try (Connection c = createConnection()) {
+            Statement statement = c.createStatement();
+            ResultSet resultset = statement.executeQuery("SELECT ");
+
+            List<CommoditybatchDTO> commoditybatches = new ArrayList<>();
+            while (resultset.next()) {
+            }
+            return commoditybatches;
+        }
+    }
 
    
     public void createProductbatch(ProductbatchDTO productbatchDTO) throws SQLException {
@@ -162,6 +174,11 @@ public class Database  {
             e.printStackTrace();
         }
     }
+    // igen skal antal i hvert batch påvirkes. hvordan?
+    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO){
+
+    }
+
 
 
 
