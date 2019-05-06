@@ -2,7 +2,7 @@ package DTO;
 
 import java.util.List;
 
-public class FarmacautDTO implements IFarmaceutDTO {
+public class PharmacistDTO implements IPharmacistDTO {
     private int farmaceutID;
     private List<Integer> recipes;
 

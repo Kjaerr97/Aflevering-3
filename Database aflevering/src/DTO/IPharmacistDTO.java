@@ -2,7 +2,7 @@ package DTO;
 
 import java.util.List;
 
-public interface IFarmaceutDTO {
+public interface IPharmacistDTO {
 
     int getFarmaceutID();
 
