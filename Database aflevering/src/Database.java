@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Database  {
 
     private Connection createConnection() throws SQLException {
@@ -15,17 +16,18 @@ public class Database  {
 
     }
 
+
     public void createRecipe(RecipeDTO recipeDTO) {
 
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (Ingredients_id, Product_id, date) VALUES(?,?,?);");
+                    "INSERT INTO recipe (Ingredients_id, Product_id, Recipe_date) VALUES(?,?,?);");
 
             preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
-            preparedStatement.setString(3, recipeDTO.getDate());
+            preparedStatement.setDate(3, recipeDTO.getRecipeDate());
 
             connection.commit();
         } catch (SQLException e) {
@@ -46,12 +48,12 @@ public class Database  {
             resultset = preparedStatement.executeQuery();
 
 
-
+//TODO lave dato til datetime istedet for string
             RecipeDTO recipe = new RecipeDTO();
             resultset.next();
             recipe.setRecipeID(resultset.getInt("recipe_id"));
             recipe.setProductID(resultset.getInt("product_id"));
-            recipe.setDate(resultset.getString("date"));
+            recipe.setRecipeDate(resultset.getDate("recipe_date"));
             while (resultset.next()) {
                 recipe.addIngredient(resultset.getString("ingredient_name"));
 
@@ -93,8 +95,9 @@ public class Database  {
 //Begynder på de reelle update medtode
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
                                                                                    " WHERE recipe_id = ?");
+//TODO Lav datetime til dato istedet for string
 
-            updateRecipe.setString(1, recipe.getDate());
+            updateRecipe.setDate(1, recipe.getRecipeDate());
             updateRecipe.setInt(2, recipe.getRecipeID());
             updateRecipe.executeUpdate();
 

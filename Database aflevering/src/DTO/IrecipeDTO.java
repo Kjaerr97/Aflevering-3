@@ -1,5 +1,6 @@
 package DTO;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface IrecipeDTO {
@@ -10,9 +11,9 @@ public interface IrecipeDTO {
 
     void setProductID(int productID);
 
-    String getDate();
+    Date getRecipeDate();
 
-    void setDate(String Date);
+    void setRecipeDate(Date recipeDate);
 
     List<String> getIngredients();
 
