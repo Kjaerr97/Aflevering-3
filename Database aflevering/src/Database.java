@@ -130,6 +130,7 @@ public class Database  {
         }
     }
 // Skal udskrive hver commoditybatchID med hvilken varenavn og antal tilbage i batchen. hvordan?
+    // vi kan joine på commodityID og udskrive det sådan.
     public List<CommoditybatchDTO> getCommodityBatchStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
