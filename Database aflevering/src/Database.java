@@ -11,8 +11,8 @@ import java.util.List;
 public class Database  {
 
     private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection("database URL",
-                "username", "password"); // indsæt egne værdier her
+        return DriverManager.getConnection("ec2-52-30-211-3.eu-west-1.compute.amazonaws.com",
+                "s171281", "6ixUAhvpEnhjDB6CxunnF");
 
     }
 
@@ -48,7 +48,6 @@ public class Database  {
             resultset = preparedStatement.executeQuery();
 
 
-//TODO lave dato til datetime istedet for string
             RecipeDTO recipe = new RecipeDTO();
             resultset.next();
             recipe.setRecipeID(resultset.getInt("recipe_id"));
@@ -132,17 +131,26 @@ public class Database  {
             return null;
         }
     }
-// Skal udskrive hver commoditybatchID med hvilken varenavn og antal tilbage i batchen. hvordan?
+// Skal udskrive hver commoditybatchID med hvilken (varenavn) og antal tilbage i batchen. hvordan?
     // vi kan joine på commodityID og udskrive det sådan.
     public List<CommoditybatchDTO> getCommodityBatchStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
-            ResultSet resultset = statement.executeQuery("SELECT ");
+            ResultSet resultset = statement.executeQuery("SELECT commoditybatchID, " +
+                                                             " batchAmount FROM commodityBatch INNER JOIN" +
+                                                 " commodityID on commodity.commodityID = commodityBatch.commodityID");
 
             List<CommoditybatchDTO> commoditybatches = new ArrayList<>();
             while (resultset.next()) {
+                CommoditybatchDTO commoditybatch = new CommoditybatchDTO();
+                commoditybatch.setCommodityBatchID(resultset.getInt("commodityBatchID"));
+                commoditybatch.setAmount(resultset.getInt("batchAmount"));
+                commoditybatches.add(commoditybatch);
             }
             return commoditybatches;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -178,12 +186,15 @@ public class Database  {
             e.printStackTrace();
         }
     }
-    // igen skal antal i hvert batch påvirkes. hvordan?
-    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO){
 
+    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO) throws SQLException{
+
+        try(Connection connection = createConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE commodityBatch SET " +
+                                                                              " batchAmount = ?");
+            preparedStatement.setInt(1, commoditybatchDTO.getBatchAmount());
+        }catch (SQLException e){
+            e.printStackTrace();
+       }
     }
-
-
-
-
 }

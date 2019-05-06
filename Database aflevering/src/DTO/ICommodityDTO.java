@@ -10,10 +10,6 @@ public interface ICommodityDTO {
 
     void setIngredientsID(int ingredientsID);
 
-    int getCommodityBatchID();
-
-    void setCommodityBatchID(int commodityBatchID);
-
     int getAmount();
 
     void setAmount(int amount);
