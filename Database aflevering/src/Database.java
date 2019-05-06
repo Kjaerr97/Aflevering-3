@@ -24,7 +24,6 @@ public class Database  {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO recipe (Ingredients_id, Product_id, Recipe_date) VALUES(?,?,?);");
-
             preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
             preparedStatement.setDate(3, recipeDTO.getRecipeDate());
