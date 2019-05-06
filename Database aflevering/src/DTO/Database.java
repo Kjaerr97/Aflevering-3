@@ -1,3 +1,5 @@
+package DTO;
+
 import DTO.CommodityDTO;
 import DTO.CommoditybatchDTO;
 import DTO.ProductbatchDTO;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Database  {
+public class Database {
 
     private Connection createConnection() throws SQLException {
         return DriverManager.getConnection("ec2-52-30-211-3.eu-west-1.compute.amazonaws.com",
