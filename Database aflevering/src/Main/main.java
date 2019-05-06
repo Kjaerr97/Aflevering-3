@@ -9,7 +9,7 @@ public class main {
         CommoditybatchDTO commoditybatchDTO = new CommoditybatchDTO();
         commoditybatchDTO.setCommodityBatchID(45);
         commoditybatchDTO.setAmount(234);
-        
+
         databaseDAO.createCommoditybatch(commoditybatchDTO);
     }
 }
