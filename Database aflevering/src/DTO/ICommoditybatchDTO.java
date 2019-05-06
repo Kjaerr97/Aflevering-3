@@ -6,4 +6,12 @@ public interface ICommoditybatchDTO {
 
     void setCommodityID(int commodityID);
 
+    int getCommodityBatchID();
+
+    void setCommodityBatchID(int commodityBatchID);
+
+    void setAmount(int batchAmount);
+
+    int getBatchAmount();
+
 }

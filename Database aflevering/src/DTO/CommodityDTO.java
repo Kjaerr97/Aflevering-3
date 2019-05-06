@@ -3,8 +3,8 @@ package DTO;
 public class CommodityDTO implements ICommodityDTO {
     private int ingredientsID;
     private String commodityName;
-    private int commodityBatchID;
     private int amount;
+    private int commodityID;
 
 
 
@@ -30,17 +30,6 @@ public class CommodityDTO implements ICommodityDTO {
     }
 
     @Override
-    public int getCommodityBatchID() {
-        return commodityBatchID;
-    }
-
-    @Override
-    public void setCommodityBatchID(int commodityBatchID) {
-        this.commodityBatchID = commodityBatchID;
-
-    }
-
-    @Override
     public int getAmount() {
         return amount;
     }
@@ -48,5 +37,15 @@ public class CommodityDTO implements ICommodityDTO {
     @Override
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public int getCommodityID() {
+        return commodityID;
+    }
+
+    @Override
+    public void setCommodityID(int commodityID) {
+        this.commodityID = commodityID;
     }
 }
