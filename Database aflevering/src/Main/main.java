@@ -7,7 +7,7 @@ public class main {
          Database databaseDAO = new Database();
 
         CommoditybatchDTO commoditybatchDTO = new CommoditybatchDTO();
-        commoditybatchDTO.setCommodityBatchID(45);
+        commoditybatchDTO.setCommodityID(45);
         commoditybatchDTO.setAmount(234);
         
         databaseDAO.createCommoditybatch(commoditybatchDTO);
