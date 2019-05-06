@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Database  {
 
     private Connection createConnection() throws SQLException {
@@ -15,17 +16,18 @@ public class Database  {
 
     }
 
+
     public void createRecipe(RecipeDTO recipeDTO) {
 
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (Ingredients_id, Product_id, Date) VALUES(?,?,?);");
+                    "INSERT INTO recipe (Ingredients_id, Product_id, Recipe_date) VALUES(?,?,?);");
 
             preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
-            preparedStatement.setString(3, recipeDTO.getDate());
+            preparedStatement.setDate(3, recipeDTO.getRecipeDate());
 
             connection.commit();
         } catch (SQLException e) {
@@ -46,12 +48,12 @@ public class Database  {
             resultset = preparedStatement.executeQuery();
 
 
-
+//TODO lave dato til datetime istedet for string
             RecipeDTO recipe = new RecipeDTO();
             resultset.next();
             recipe.setRecipeID(resultset.getInt("recipe_id"));
             recipe.setProductID(resultset.getInt("product_id"));
-            recipe.setDate(resultset.getString("date"));
+            recipe.setRecipeDate(resultset.getDate("recipe_date"));
             while (resultset.next()) {
                 recipe.addIngredient(resultset.getString("ingredient_name"));
 
@@ -93,8 +95,9 @@ public class Database  {
 //Begynder på de reelle update medtode
             PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
                                                                                    " WHERE recipe_id = ?");
+//TODO Lav datetime til dato istedet for string
 
-            updateRecipe.setString(1, recipe.getDate());
+            updateRecipe.setDate(1, recipe.getRecipeDate());
             updateRecipe.setInt(2, recipe.getRecipeID());
             updateRecipe.executeUpdate();
 
@@ -110,25 +113,36 @@ public class Database  {
             System.out.println("Couldn't update recipe" + e.getMessage());
         }
     }
-
+// udskriver hvert item og antal for hvert item
     public List<CommodityDTO> getCommodityStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
-            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM comodity");
+            ResultSet resultset = statement.executeQuery("SELECT item, amount FROM commodity");
 
             List<CommodityDTO> commodities = new ArrayList<>();
             while (resultset.next()) {
                 CommodityDTO commodity = new CommodityDTO();
-                // comodity.setComodityId(resultset.getInt("comodity_id"));
                 commodity.setCommodityName(resultset.getString("item"));
                 commodity.setAmount(resultset.getInt("amount"));
                 commodities.add(commodity);
-
             }
             return commodities;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+// Skal udskrive hver commoditybatchID med hvilken varenavn og antal tilbage i batchen. hvordan?
+    // vi kan joine på commodityID og udskrive det sådan.
+    public List<CommoditybatchDTO> getCommodityBatchStatus() throws SQLException {
+        try (Connection c = createConnection()) {
+            Statement statement = c.createStatement();
+            ResultSet resultset = statement.executeQuery("SELECT ");
+
+            List<CommoditybatchDTO> commoditybatches = new ArrayList<>();
+            while (resultset.next()) {
+            }
+            return commoditybatches;
         }
     }
 
@@ -164,6 +178,11 @@ public class Database  {
             e.printStackTrace();
         }
     }
+    // igen skal antal i hvert batch påvirkes. hvordan?
+    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO){
+
+    }
+
 
 
 
