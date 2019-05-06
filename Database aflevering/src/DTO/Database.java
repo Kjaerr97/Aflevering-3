@@ -25,7 +25,7 @@ public class Database {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (Ingredients_id, Product_id, Recipe_date) VALUES(?,?,?);");
+                    "INSERT INTO recipe (ingredients_id, product_id, recipe_date) VALUES(?,?,?);");
             preparedStatement.setString(1, recipeDTO.getIngredientName());
             preparedStatement.setInt(2,recipeDTO.getProductID());
             preparedStatement.setDate(3, recipeDTO.getRecipeDate());
@@ -88,7 +88,7 @@ public class Database {
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
 
-            PreparedStatement oldDatestmt = conn.prepareStatement("INSERT INTO oldRecipies SELECT * FROM" +
+            PreparedStatement oldDatestmt = conn.prepareStatement("INSERT INTO old_recipe SELECT * FROM" +
                                                                       " recipe where recipe_id = ? ");
             oldDatestmt.setInt(1,recipe.getRecipeID());
 
@@ -137,15 +137,15 @@ public class Database {
     public List<CommoditybatchDTO> getCommodityBatchStatus() throws SQLException {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
-            ResultSet resultset = statement.executeQuery("SELECT commoditybatchID, " +
-                                                             " batchAmount FROM commodityBatch INNER JOIN" +
-                                                 " commodityID on commodity.commodityID = commodityBatch.commodityID");
+            ResultSet resultset = statement.executeQuery("SELECT commoditybatch_id, " +
+                                                             " batch_amount FROM commodity_batch INNER JOIN" +
+                                                 " commodity_id on commodity.commodity_id = commodity_batch.commodity_id");
 
             List<CommoditybatchDTO> commoditybatches = new ArrayList<>();
             while (resultset.next()) {
                 CommoditybatchDTO commoditybatch = new CommoditybatchDTO();
-                commoditybatch.setCommodityBatchID(resultset.getInt("commodityBatchID"));
-                commoditybatch.setAmount(resultset.getInt("batchAmount"));
+                commoditybatch.setCommodityBatchID(resultset.getInt("commoditybatch_id"));
+                commoditybatch.setAmount(resultset.getInt("batch_amount"));
                 commoditybatches.add(commoditybatch);
             }
             return commoditybatches;
@@ -191,8 +191,8 @@ public class Database {
     public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO) throws SQLException{
 
         try(Connection connection = createConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE commodityBatch SET " +
-                                                                              " batchAmount = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE commodity_batch SET " +
+                                                                              " batch_amount = ?");
             preparedStatement.setInt(1, commoditybatchDTO.getBatchAmount());
         }catch (SQLException e){
             e.printStackTrace();
