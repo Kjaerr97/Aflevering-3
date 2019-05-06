@@ -1,12 +1,13 @@
 package DTO;
 
 
+import java.sql.Date;
 import java.util.List;
 
 public class RecipeDTO implements IrecipeDTO {
 
     private int productID;
-    private String date;
+    private Date recipeDate;
     private List<String> ingredients;
     private int recipeID;
     private String ingredientName;
@@ -24,8 +25,8 @@ public class RecipeDTO implements IrecipeDTO {
 
     }
     @Override
-    public String getDate() {
-        return date;
+    public Date getRecipeDate() {
+        return recipeDate;
     }
 
     @Override
@@ -40,8 +41,8 @@ public class RecipeDTO implements IrecipeDTO {
     }
 
     @Override
-    public void setDate(String Date) {
-        this.date = date;
+    public void setRecipeDate(Date recipeDate) {
+        this.recipeDate = recipeDate;
 
     }
 
