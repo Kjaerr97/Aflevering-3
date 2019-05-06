@@ -3,17 +3,17 @@ package DTO;
 import java.util.List;
 
 public class PharmacistDTO implements IPharmacistDTO {
-    private int farmaceutID;
+    private int pharmacistID;
     private List<Integer> recipes;
 
     @Override
-    public int getFarmaceutID() {
-        return farmaceutID;
+    public int getPharmacistID() {
+        return pharmacistID;
     }
 
     @Override
-    public void setFarmaceutID(int farmaceutID) {
-        this.farmaceutID = farmaceutID;
+    public void setPharmacistID(int pharmacistID) {
+        this.pharmacistID = pharmacistID;
     }
 
     @Override

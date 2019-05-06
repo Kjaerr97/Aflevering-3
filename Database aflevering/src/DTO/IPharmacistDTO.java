@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IPharmacistDTO {
 
-    int getFarmaceutID();
+    int getPharmacistID();
 
-    void setFarmaceutID(int farmaceutID);
+    void setPharmacistID(int pharmacistID);
 
     List<Integer> getRecipes();
 
