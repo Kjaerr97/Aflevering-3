@@ -13,8 +13,7 @@ import java.util.List;
 public class Database {
 
     private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s171281",
-                "s171281", "6ixUAhvpEnhjDB6CxunnF");
+        return DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s180911", "s180911", "QekXA8EbroGRPIN1MOpRI");
 
     }
 
@@ -178,9 +177,13 @@ public class Database {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO commoditybatch (commodity_id) VALUES(?);");
+                    "INSERT INTO commoditybatch(commodity_id, commoditybatch_id, batchAmount) VALUES(?,?,?);");
 
-            preparedStatement.setInt(1,commoditybatchDTO.getCommodityID());
+            preparedStatement.setInt(1,1);
+            preparedStatement.setInt(2,1);
+            preparedStatement.setInt(3,commoditybatchDTO.getBatchAmount());
+
+            preparedStatement.executeUpdate();
 
             connection.commit();
         }catch (SQLException e){
