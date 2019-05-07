@@ -171,18 +171,16 @@ public class Database {
         }
     }
 
-    public void createCommoditybatch(CommoditybatchDTO commoditybatchDTO){
+    public void createCommoditybatch(CommoditybatchDTO commoditybatchDTO, CommodityDTO commodityDTO){
 
         try (Connection connection = createConnection()){
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO commoditybatch(commodity_id, commoditybatch_id, batchAmount) VALUES(?,?,?);");
+                    "INSERT INTO commoditybatch(commodity_id, batchAmount) VALUES (?,?);");
 
-            preparedStatement.setInt(1,1);
-            preparedStatement.setInt(2,1);
-            preparedStatement.setInt(3,commoditybatchDTO.getBatchAmount());
-
+            preparedStatement.setInt(1,commodityDTO.getCommodityID());
+            preparedStatement.setInt(2,commoditybatchDTO.getBatchAmount());
             preparedStatement.executeUpdate();
 
             connection.commit();
