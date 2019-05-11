@@ -18,21 +18,23 @@ public class Database {
     }
 
 
-    public void createRecipe(RecipeDTO recipeDTO) {
+    public void createRecipe(RecipeDTO recipeDTO, UserDTO userDTO) {
 
-        try (Connection connection = createConnection()) {
-            connection.setAutoCommit(false);
+        if (userDTO.getUserRole().contains("PharmacistDTO")){
+            try (Connection connection = createConnection()) {
+                connection.setAutoCommit(false);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO recipe (ingredients_id, product_id, recipe_date) VALUES(?,?,?);");
-            preparedStatement.setString(1, recipeDTO.getIngredientName());
-            preparedStatement.setInt(2,recipeDTO.getProductID());
-            preparedStatement.setDate(3, recipeDTO.getRecipeDate());
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "INSERT INTO recipe (ingredients_id, product_id, recipe_date) VALUES(?,?,?);");
+                preparedStatement.setString(1, recipeDTO.getIngredientName());
+                preparedStatement.setInt(2, recipeDTO.getProductID());
+                preparedStatement.setDate(3, recipeDTO.getRecipeDate());
 
-            connection.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                connection.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    } else System.out.println("You dont have permission to create a recipe.");
     }
 
     public RecipeDTO getRecipe(int recipeID) {
