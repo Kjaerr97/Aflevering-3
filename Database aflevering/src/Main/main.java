@@ -4,7 +4,7 @@ import DTO.CommoditybatchDTO;
 import DTO.Database;
 
 public class main {
-    public static void main(String[] args) {
+    public static void main (String[] args) {
          Database databaseDAO = new Database();
 
         CommodityDTO commodityDTO = new CommodityDTO();
