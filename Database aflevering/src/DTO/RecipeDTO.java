@@ -67,5 +67,8 @@ public class RecipeDTO implements IrecipeDTO {
 
     }
 
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
 }
 

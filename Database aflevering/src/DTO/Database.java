@@ -20,15 +20,21 @@ public class Database {
 
     public void createRecipe(RecipeDTO recipeDTO, UserDTO userDTO) {
 
-        if (userDTO.getUserRole().contains("Pharmacist") || userDTO.getUserRole().contains("")) {
+        if (userDTO.getUserRole().contains("Pharmacist")) {
             try (Connection connection = createConnection()) {
                 connection.setAutoCommit(false);
 
-                PreparedStatement preparedStatement = connection.prepareStatement(
-                        "INSERT INTO recipe (ingredients_id, product_id, recipe_date) VALUES(?,?,?);");
-                preparedStatement.setString(1, recipeDTO.getIngredientName());
-                preparedStatement.setInt(2, recipeDTO.getProductID());
-                preparedStatement.setDate(3, recipeDTO.getRecipeDate());
+                PreparedStatement insertRecipe = connection.prepareStatement(
+                        "INSERT INTO recipe ( product_id, recipe_date) VALUES(?,?);");
+                insertRecipe.setInt(1, recipeDTO.getProductID());
+                insertRecipe.setDate(2, recipeDTO.getRecipeDate());
+
+                for (int i = 0; i < recipeDTO.getIngredients().size(); i++) {
+                PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients" +
+                                                                                      " VALUES ?");
+                insertIngredients.setString(1,recipeDTO.getIngredients().get(i));
+                insertIngredients.executeUpdate();
+                }
 
                 connection.commit();
             } catch (SQLException e) {
@@ -115,7 +121,7 @@ public class Database {
 
                 for (int i = 0; i < recipe.getIngredients().size(); i++) {
                     PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
-                            " ingredients_id = ? WHERE recipe_id = ?");
+                            " ingredients_name = ? WHERE recipe_id = ?");
                     updateIngredients.setString(1, recipe.getIngredients().get(i));
                     updateIngredients.setInt(2, recipe.getRecipeID());
                     updateIngredients.executeUpdate();
