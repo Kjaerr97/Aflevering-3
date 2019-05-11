@@ -10,4 +10,8 @@ public interface IProductbatchDTO {
 
     void setProductbatchID();
 
+    int getProductbatchAmount();
+
+    void setAmount(int productbatchAmount);
+
 }

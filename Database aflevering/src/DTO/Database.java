@@ -254,6 +254,33 @@ public class Database {
 
 
 
-    
-    public void
+
+    public void createUser(UserDTO userDTO, RoleDTO roleDTO){
+
+        try (Connection connection = createConnection()){
+            connection.setAutoCommit(false);
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO user(role) VALUES (?);");
+
+            preparedStatement.setString(1,roleDTO.getRole());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateUser(UserDTO userDTO, RoleDTO roleDTO){
+
+        try(Connection connection = createConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET " +
+                    " role= ?");
+            preparedStatement.setInt(1, ());
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
+
