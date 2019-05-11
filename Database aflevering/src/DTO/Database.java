@@ -37,9 +37,8 @@ public class Database {
     } else System.out.println("You dont have permission to create a recipe.");
     }
 
-    public RecipeDTO getRecipe(int recipeID) {
+    public RecipeDTO getRecipe(int recipeID, UserDTO userDTO) {
         ResultSet resultset = null;
-
         try (Connection conn = createConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT recipe.recipe_id," +
                                                                             "product_id," +
@@ -62,7 +61,8 @@ public class Database {
             return recipe;
         } catch (SQLException e) {
             e.printStackTrace();
-        } return null; // få lige fikset det her
+        }
+        return null; // få lige fikset det her
 
     }
 
