@@ -30,8 +30,8 @@ public class Database {
                 insertRecipe.setDate(2, recipeDTO.getRecipeDate());
 
                 for (int i = 0; i < recipeDTO.getIngredients().size(); i++) {
-                PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients" +
-                                                                                      " VALUES ?");
+                PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients (ingredient_name)" +
+                                                                                      " VALUES ? WHERE recipe_id =" + recipeDTO.getRecipeID() );
                 insertIngredients.setString(1,recipeDTO.getIngredients().get(i));
                 insertIngredients.executeUpdate();
                 }
@@ -246,41 +246,50 @@ public class Database {
 
 
 
+    
 
 
+    public void createUser(UserDTO userDTO) {
 
-
-
-
-
-
-
-    public void createUser(UserDTO userDTO, RoleDTO roleDTO){
-
-        try (Connection connection = createConnection()){
+        try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO user(role) VALUES (?);");
+                    "INSERT INTO user (user_name) VALUES (?);");
 
-            preparedStatement.setString(1,roleDTO.getRole());
+            preparedStatement.setString(1, userDTO.getUserName());
             preparedStatement.executeUpdate();
-            connection.commit();
-        }catch (SQLException e){
-            e.printStackTrace();
+
+            for (int i = 0; i < userDTO.getUserRole().size(); i++) {
+                PreparedStatement insertRole = connection.prepareStatement("INSERT INTO user_role (role_name)" +
+                        " VALUES ? WHERE user_id" + userDTO.getUserID());
+                insertRole.setString(1, userDTO.getUserRole().get(i));
+                insertRole.executeUpdate();
+            }
+                connection.commit();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+
         }
 
-    }
-
-    public void updateUser(UserDTO userDTO, RoleDTO roleDTO){
+    public void updateUser(UserDTO userDTO){
 
         try(Connection connection = createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET " +
-                    " role= ?");
-            preparedStatement.setInt(1, ());
+                    " user_name WHERE user_id =" + userDTO.getUserID());
+            preparedStatement.setString(1,userDTO.getUserName());
+
+            for(int i = 0; i < userDTO.getUserRole().size(); i++){
+                PreparedStatement insertRole = connection.prepareStatement("UPDATE user_role SET" +
+                        " role_name = ? WHERE user_id="  + userDTO.getUserID());
+                insertRole.setString(1, userDTO.getUserRole().get(i));
+                insertRole.executeUpdate();
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
+
 }
 

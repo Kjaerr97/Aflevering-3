@@ -10,6 +10,8 @@ public interface IUserDTO {
 
    int getUserID();
 
-   void setUserID();
+   String getUserName();
+
+   void setUserName(String userName);
 
 }

@@ -7,6 +7,7 @@ public class UserDTO implements IUserDTO {
     List<String> userRoles;
     String role;
     int userID;
+    String name;
 
 
 
@@ -27,12 +28,19 @@ public class UserDTO implements IUserDTO {
     }
 
     @Override
-    public void setUserID() {
-        this.userID = userID;
+    public String getUserName() {
+        return name;
+    }
+
+    @Override
+    public void setUserName(String userName) {
+        this.name = name;
 
     }
+
     public void addRole(String Role) {
         this.userRoles.add(Role);
 
     }
+
 }
