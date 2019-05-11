@@ -20,7 +20,7 @@ public class Database {
 
     public void createRecipe(RecipeDTO recipeDTO, UserDTO userDTO) {
 
-        if (userDTO.getUserRole().contains("PharmacistDTO")){
+        if (userDTO.getUserRole().contains("PharmacistDTO") || userDTO.getUserRole().contains("")){
             try (Connection connection = createConnection()) {
                 connection.setAutoCommit(false);
 
@@ -201,4 +201,17 @@ public class Database {
             e.printStackTrace();
        }
     }
+
+
+
+
+
+
+
+
+
+
+
+    
+    public void
 }
