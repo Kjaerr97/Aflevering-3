@@ -30,9 +30,10 @@ public class Database {
                 insertRecipe.setDate(2, recipeDTO.getRecipeDate());
 
                 for (int i = 0; i < recipeDTO.getIngredients().size(); i++) {
-                PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients (ingredient_name)" +
-                                                                                      " VALUES ? WHERE recipe_id =" + recipeDTO.getRecipeID() );
-                insertIngredients.setString(1,recipeDTO.getIngredients().get(i));
+                PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients" +
+                                                                                      " VALUES (?,?)");
+                insertIngredients.setInt(1,recipeDTO.getRecipeID());
+                insertIngredients.setString(2,recipeDTO.getIngredients().get(i));
                 insertIngredients.executeUpdate();
                 }
 
@@ -93,7 +94,7 @@ public class Database {
 
             conn.commit();
         } catch (SQLException e) {
-            System.out.println("couldn't delete user" + e.getMessage());
+            System.out.println("couldn't delete recipe" + e.getMessage());
 
       } else{
             System.out.println("Only pharmacists have permission to delete recepies.");
@@ -246,7 +247,7 @@ public class Database {
 
 
 
-    
+
 
 
     public void createUser(UserDTO userDTO) {
@@ -261,8 +262,9 @@ public class Database {
             preparedStatement.executeUpdate();
 
             for (int i = 0; i < userDTO.getUserRole().size(); i++) {
-                PreparedStatement insertRole = connection.prepareStatement("INSERT INTO user_role (role_name)" +
-                        " VALUES ? WHERE user_id" + userDTO.getUserID());
+                PreparedStatement insertRole = connection.prepareStatement("INSERT INTO user_role" +
+                        " VALUES (?,?)");
+                insertRole.setInt(1,userDTO.getUserID());
                 insertRole.setString(1, userDTO.getUserRole().get(i));
                 insertRole.executeUpdate();
             }
@@ -276,9 +278,11 @@ public class Database {
     public void updateUser(UserDTO userDTO){
 
         try(Connection connection = createConnection()){
+
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET " +
                     " user_name WHERE user_id =" + userDTO.getUserID());
             preparedStatement.setString(1,userDTO.getUserName());
+
 
             for(int i = 0; i < userDTO.getUserRole().size(); i++){
                 PreparedStatement insertRole = connection.prepareStatement("UPDATE user_role SET" +
@@ -290,6 +294,24 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public void deleteUser (int user_id) {
+        try (Connection conn = createConnection()) {
+            conn.setAutoCommit(false);
+            PreparedStatement delete = conn.prepareStatement("DELETE FROM user WHERE user_id = ?");
+            delete.setInt(1,user_id);
+            delete.executeUpdate();
+
+            delete = conn.prepareStatement("DELETE FROM user_role WHERE user_id = ?");
+            delete.setInt(1,user_id);
+            delete.executeUpdate();
+            
+            conn.commit();
+        } catch (SQLException e) {
+            System.out.println("couldn't delete user" + e.getMessage());
+        }
+    }
+
 
 }
 
