@@ -1,6 +1,6 @@
-package DTO;
+package Project.DTO;
 
-import java.sql.Date;
+import Project.Interfaces.IOldRecipe;
 
 public class OldRecipe implements IOldRecipe {
     int version;

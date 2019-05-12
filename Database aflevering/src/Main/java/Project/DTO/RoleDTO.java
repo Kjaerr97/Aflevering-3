@@ -1,4 +1,6 @@
-package DTO;
+package Project.DTO;
+
+import Project.Interfaces.IRolesDTO;
 
 public class RoleDTO implements IRolesDTO {
     public String role;

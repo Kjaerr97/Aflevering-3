@@ -1,9 +1,6 @@
-package DTO;
+package Project.Main;
 
-import DTO.CommodityDTO;
-import DTO.CommoditybatchDTO;
-import DTO.ProductbatchDTO;
-import DTO.RecipeDTO;
+import Project.DTO.*;
 
 import java.sql.*;
 import java.util.ArrayList;

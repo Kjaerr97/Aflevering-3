@@ -1,7 +1,8 @@
-package DTO;
+package Project.DTO;
 
 
-import java.sql.Date;
+import Project.Interfaces.IrecipeDTO;
+
 import java.util.List;
 
 public class RecipeDTO implements IrecipeDTO {

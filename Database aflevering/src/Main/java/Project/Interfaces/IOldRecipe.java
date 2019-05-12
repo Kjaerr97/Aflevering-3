@@ -1,6 +1,4 @@
-package DTO;
-
-import java.sql.Date;
+package Project.Interfaces;
 
 public interface IOldRecipe {
 

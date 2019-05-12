@@ -1,8 +1,4 @@
-package DTO;
-import DTO.*;
-import sun.util.calendar.BaseCalendar;
-
-import java.util.ArrayList;
+package Project.Main;
 
 public class main {
     public static void main (String[] args) {

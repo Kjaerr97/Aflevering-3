@@ -1,4 +1,4 @@
-package DTO;
+package Project.Interfaces;
 
 import java.util.List;
 

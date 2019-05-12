@@ -1,4 +1,6 @@
-package DTO;
+package Project.DTO;
+
+import Project.Interfaces.ICommodityDTO;
 
 public class CommodityDTO implements ICommodityDTO {
     private int ingredientsID;

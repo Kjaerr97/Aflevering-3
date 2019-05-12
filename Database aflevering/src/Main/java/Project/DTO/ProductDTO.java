@@ -1,6 +1,8 @@
-package DTO;
+package Project.DTO;
 
-public class ProductDTO implements IProductDTO{
+import Project.Interfaces.IProductDTO;
+
+public class ProductDTO implements IProductDTO {
     private int labtecID;
     private int commodityID;
 

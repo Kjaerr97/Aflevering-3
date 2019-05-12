@@ -1,4 +1,6 @@
-package DTO;
+package Project.DTO;
+
+import Project.Interfaces.IUserDTO;
 
 import java.util.List;
 

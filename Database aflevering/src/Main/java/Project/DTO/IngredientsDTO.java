@@ -1,6 +1,8 @@
-package DTO;
+package Project.DTO;
 
-public class IngredientsDTO implements IIngredientsDTO{
+import Project.Interfaces.IIngredientsDTO;
+
+public class IngredientsDTO implements IIngredientsDTO {
     private int commodityID;
 
     @Override

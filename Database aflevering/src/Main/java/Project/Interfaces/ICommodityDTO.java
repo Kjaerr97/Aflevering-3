@@ -1,4 +1,4 @@
-package DTO;
+package Project.Interfaces;
 
 public interface ICommodityDTO {
 

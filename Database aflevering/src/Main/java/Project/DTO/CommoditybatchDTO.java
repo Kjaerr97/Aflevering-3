@@ -1,4 +1,6 @@
-package DTO;
+package Project.DTO;
+
+import Project.Interfaces.ICommoditybatchDTO;
 
 public class CommoditybatchDTO implements ICommoditybatchDTO {
 

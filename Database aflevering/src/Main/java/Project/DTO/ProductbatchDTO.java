@@ -1,4 +1,6 @@
-package DTO;
+package Project.DTO;
+
+import Project.Interfaces.IProductbatchDTO;
 
 public class ProductbatchDTO implements IProductbatchDTO {
 
