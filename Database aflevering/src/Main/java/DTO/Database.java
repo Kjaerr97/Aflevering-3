@@ -87,12 +87,12 @@ public class Database {
 
             conn.setAutoCommit(false);
 
-              PreparedStatement delete2 = conn.prepareStatement("DELETE * FROM recipe_ingredients" +
+              PreparedStatement delete2 = conn.prepareStatement("DELETE FROM recipe_ingredients" +
                       " WHERE recipe_id = ?");
               delete2.setInt(1, recipeID);
               delete2.executeUpdate();
 
-            PreparedStatement delete = conn.prepareStatement("DELETE * FROM recipe " +
+            PreparedStatement delete = conn.prepareStatement("DELETE FROM recipe " +
                                                                  " WHERE recipe_id = ?");
             delete.setInt(1, recipeID);
             delete.executeUpdate();
@@ -132,6 +132,7 @@ public class Database {
 
                 PreparedStatement delete = conn.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe_id = ?");
                 delete.setInt(1, recipe.getRecipeID());
+                delete.executeUpdate();
 
                 conn.commit();
 

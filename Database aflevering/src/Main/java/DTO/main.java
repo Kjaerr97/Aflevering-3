@@ -1,4 +1,4 @@
-package Main;
+package DTO;
 import DTO.*;
 import sun.util.calendar.BaseCalendar;
 
@@ -8,18 +8,10 @@ public class main {
     public static void main (String[] args) {
          Database databaseDAO = new Database();
 
-     /*CHECK COMMODITY
-         UserDTO user = new UserDTO();
-        user.setUserName("Nieve");
-        ArrayList<String> roles = new ArrayList<>();
-        roles.add("Productleader") 
-          user.setUserRole(roles);
-        databaseDAO.getCommodityBatchStatus(user);
-      */
 
-       /*CHECK COMMODITY
+/*createCommoditybatch
         UserDTO user = new UserDTO();
-        user.setUserName("Nieve");
+        user.setUserName("Lars");
         ArrayList<String> roles = new ArrayList<>();
         roles.add("Productleader");
         user.setUserRole(roles);
@@ -29,11 +21,25 @@ public class main {
         ranarr.setCommodityID(1);
         ranarrBatch.setAmount(4);
         databaseDAO.createCommoditybatch(ranarrBatch,ranarr,user);
-        */
+*/
 
-       /*UPDATE COMMODITYBATCH
+
+/* getCommodityBatchStatus
+
+     UserDTO user = new UserDTO();
+     user.setUserName("Lars");
+     ArrayList<String> roles = new ArrayList<>();
+     roles.add("Productleader");
+     user.setUserRole(roles);
+
+     databaseDAO.getCommodityBatchStatus(user);
+*/
+
+
+
+/* updateCommodityBatch
         UserDTO user = new UserDTO();
-        user.setUserName("Nieve");
+        user.setUserName("Lars");
         ArrayList<String> roles = new ArrayList<>();
         roles.add("Productleader");
         user.setUserRole(roles);
@@ -44,46 +50,42 @@ public class main {
 
         databaseDAO.updateCommodityBatch(ranarrBatch,user);
 */
-       /* getCommodityBatchStatus
-        UserDTO user = new UserDTO();
-        user.setUserName("Nieve");
-        ArrayList<String> roles = new ArrayList<>();
-        roles.add("Productleader");
-        user.setUserRole(roles);
 
-        databaseDAO.getCommodityBatchStatus(user);
-*/
-       /*GETCOMMODITYSTATUS
+
+/*getCommodityStatus
         UserDTO user = new UserDTO();
-        user.setUserName("Nieve");
+        user.setUserName("Lars");
         ArrayList<String> roles = new ArrayList<>();
         roles.add("Productleader");
         user.setUserRole(roles);
 
         databaseDAO.getCommodityStatus(user);
-        */
+*/
 
 
-
-        /* createUser
+/*
+        UserDTO user = new UserDTO();
+        user.setUserName("Lars");
         ArrayList<String> roles = new ArrayList();
         roles.add("Labtec");
         user.setUserID(1);
         databaseDAO.deleteUser(1);
         user.setUserRole(roles);
-         databaseDAO.createUser(user);
-       */
+        databaseDAO.createUser(user);
+*/
 
-        /* UpdateUser
+/*updateUser
+        UserDTO user = new UserDTO();
+        user.setUserName("Carl");
         ArrayList<String> roles = new ArrayList();
         roles.add("Labtec");
-        user.setUserID(1);
-        databaseDAO.deleteUser(1);
+        user.setUserID(2);
         user.setUserRole(roles);
         databaseDAO.updateUser(user);
-         */
 
-/*      createRecipe
+*/
+
+/* createRecipe
         UserDTO user = new UserDTO();
         ArrayList<String> roles = new ArrayList();
         roles.add("Pharmacist");
@@ -92,7 +94,7 @@ public class main {
 
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setProductID(1);
-        recipeDTO.setRecipeDate("Januar 01, 02");
+        recipeDTO.setRecipeDate("Januar 01, 2019");
         recipeDTO.setRecipeID(1);
 
         ArrayList<String> ingredients = new ArrayList<>();
@@ -103,7 +105,8 @@ public class main {
 
         databaseDAO.createRecipe(recipeDTO, user);
 */
-/* updateRecipe
+
+/*updateRecipe
         UserDTO user = new UserDTO();
         ArrayList<String> roles = new ArrayList();
         roles.add("Pharmacist");
@@ -111,28 +114,27 @@ public class main {
 
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setRecipeID(1);
-        recipeDTO.setRecipeDate("Januar 01, 02");
+        recipeDTO.setRecipeDate("Januar 01, 2019");
 
         ArrayList<String> ingredients = new ArrayList<>();
         ingredients.add("Irit");
         ingredients.add("Glukose");
-        ingredients.add("Natrium")
+        ingredients.add("Natrium");
         recipeDTO.setIngredients(ingredients);
 
         databaseDAO.updateRecipe(recipeDTO,user);
+
 */
-/*
+
+/* deleteRecipe
         UserDTO user = new UserDTO();
         ArrayList<String> roles = new ArrayList();
         roles.add("Pharmacist");
         user.setUserRole(roles);
+
         databaseDAO.deleteRecipe(1,user);
+
 */
-
-
-
-
-
     }
 
 }
