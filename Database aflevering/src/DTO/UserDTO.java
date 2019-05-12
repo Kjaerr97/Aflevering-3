@@ -38,6 +38,12 @@ public class UserDTO implements IUserDTO {
 
     }
 
+    @Override
+    public void setUserID(int userID) {
+        this.userID = userID;
+
+    }
+
     public void addRole(String role) {
         this.userRoles.add(role);
 

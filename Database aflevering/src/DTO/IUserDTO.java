@@ -14,5 +14,8 @@ public interface IUserDTO {
 
    void setUserName(String userName);
 
+   void setUserID(int userID);
+
+
 
 }

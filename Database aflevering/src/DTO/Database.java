@@ -108,9 +108,11 @@ public class Database {
             try (Connection conn = createConnection()) {
                 conn.setAutoCommit(false);
 
-                PreparedStatement oldDatestmt = conn.prepareStatement("INSERT INTO old_recipe SELECT * FROM" +
+                PreparedStatement oldstmt = conn.prepareStatement("INSERT INTO old_recipe (recipe_id, old_date) SELECT recipe_id, recipe_date FROM" +
                         " recipe where recipe_id = ? ");
-                oldDatestmt.setInt(1, recipe.getRecipeID());
+                oldstmt.setInt(1, recipe.getRecipeID());
+
+                oldstmt.executeUpdate();
 
 //Begynder på den reelle update medtode
                 PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET recipe_date = ? " +
@@ -120,34 +122,40 @@ public class Database {
                 updateRecipe.setInt(2, recipe.getRecipeID());
                 updateRecipe.executeUpdate();
 
+
                 for (int i = 0; i < recipe.getIngredients().size(); i++) {
                     PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
-                            " ingredients_name = ? WHERE recipe_id = ?");
+                            " ingredients_name = ? WHERE ingredients_name = ?");
                     updateIngredients.setString(1, recipe.getIngredients().get(i));
-                    updateIngredients.setInt(2, recipe.getRecipeID());
+                    updateIngredients.setString(2, recipe.getIngredientName());
                     updateIngredients.executeUpdate();
                 }
+
                 conn.commit();
             } catch (SQLException e) {
                 System.out.println("Couldn't update recipe" + e.getMessage());
+                e.printStackTrace();
             }
         } else{
             System.out.println("Only pharmacists have permission to update recipies");
         }
     }
 // udskriver hvert item og antal for hvert item
-    public List<CommodityDTO> getCommodityStatus(UserDTO userDTO) throws SQLException {
+    public List<CommodityDTO> getCommodityStatus(UserDTO userDTO) {
         if(userDTO.getUserRole().contains("Productleader")) {
             try (Connection c = createConnection()) {
                 Statement statement = c.createStatement();
-                ResultSet resultset = statement.executeQuery("SELECT item, amount FROM commodity");
+                ResultSet resultset = statement.executeQuery("SELECT commodity_name, commodity_amount FROM commodity");
 
                 List<CommodityDTO> commodities = new ArrayList<>();
                 while (resultset.next()) {
                     CommodityDTO commodity = new CommodityDTO();
-                    commodity.setCommodityName(resultset.getString("item"));
-                    commodity.setAmount(resultset.getInt("amount"));
+                    commodity.setCommodityName(resultset.getString("commodity_name"));
+                    commodity.setAmount(resultset.getInt("commodity_amount"));
                     commodities.add(commodity);
+
+                    System.out.println("Item = " + resultset.getString(1));
+                    System.out.println("Amount = " + resultset.getInt(2));
                 }
                 return commodities;
             } catch (SQLException e) {
@@ -161,31 +169,34 @@ public class Database {
     }
 // Skal udskrive hver commoditybatchID med hvilken (varenavn) og antal tilbage i batchen. hvordan?
     // vi kan joine på commodityID og udskrive det sådan.
-    public List<CommoditybatchDTO> getCommodityBatchStatus(UserDTO userDTO) throws SQLException {
-        if(userDTO.getUserRole().contains("Productleader")){
+public List<CommoditybatchDTO> getCommodityBatchStatus(UserDTO userDTO) {
+    if (userDTO.getUserRole().contains("Productleader")) {
         try (Connection c = createConnection()) {
             Statement statement = c.createStatement();
             ResultSet resultset = statement.executeQuery("SELECT commoditybatch_id, " +
-                                                             " batch_amount FROM commodity_batch INNER JOIN" +
-                                                 " commodity_id on commodity.commodity_id = commodity_batch.commodity_id");
+                    " batchAmount FROM commoditybatch INNER JOIN" +
+                    " commodity on commodity.commodity_id = commoditybatch.commodity_id");
 
             List<CommoditybatchDTO> commoditybatches = new ArrayList<>();
             while (resultset.next()) {
                 CommoditybatchDTO commoditybatch = new CommoditybatchDTO();
                 commoditybatch.setCommodityBatchID(resultset.getInt("commoditybatch_id"));
-                commoditybatch.setAmount(resultset.getInt("batch_amount"));
+                commoditybatch.setAmount(resultset.getInt("batchAmount"));
                 commoditybatches.add(commoditybatch);
+
+                System.out.println("|commoditybatch ID = " + resultset.getInt(1));;
+                System.out.println("|commodityAmount = " + resultset.getInt(2));
+
             }
             return commoditybatches;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
-        }
-        } else{
-                System.out.println("Only productleaders have permission to see commodity batch status");
-                return null;
-        }
-    }
+        } return null;
+    } else {
+        System.out.println("Only productleaders have permission to see commodity batch status");
+
+    } return null;
+}
 
    
     public void createProductbatch(ProductbatchDTO productbatchDTO, UserDTO userDTO) throws SQLException {
@@ -230,13 +241,15 @@ public class Database {
         }
     }
 
-    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO, UserDTO userDTO) throws SQLException{
+    public void updateCommodityBatch(CommoditybatchDTO commoditybatchDTO, UserDTO userDTO){
         if(userDTO.getUserRole().contains("Productleader")) {
 
             try (Connection connection = createConnection()) {
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE commodity_batch SET " +
-                        " batch_amount = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE commoditybatch SET " +
+                        " batchAmount = ? WHERE commoditybatch_id = ?" );
                 preparedStatement.setInt(1, commoditybatchDTO.getBatchAmount());
+                preparedStatement.setInt(2,commoditybatchDTO.getCommodityBatchID());
+                preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -247,20 +260,25 @@ public class Database {
 
 
 
-
-
-
     public void createUser(UserDTO userDTO) {
 
         try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
 
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO user (user_name) VALUES (?);");
+                    "INSERT INTO user (user_name) VALUES (?);",Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, userDTO.getUserName());
             preparedStatement.executeUpdate();
 
+            ResultSet userkey = preparedStatement.getGeneratedKeys();
+            int userID = 0;
+            if (userkey.next()) {
+                userID = userkey.getInt(1);
+                userDTO.setUserID(userID);
+
+            }
             for (int i = 0; i < userDTO.getUserRole().size(); i++) {
                 PreparedStatement insertRole = connection.prepareStatement("INSERT INTO user_role" +
                         " VALUES (?,?)");
@@ -268,6 +286,7 @@ public class Database {
                 insertRole.setString(2, userDTO.getUserRole().get(i));
                 insertRole.executeUpdate();
             }
+            connection.commit();
 
             }catch(SQLException e){
                 e.printStackTrace();
@@ -280,8 +299,9 @@ public class Database {
         try(Connection connection = createConnection()){
 
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET " +
-                    " user_name WHERE user_id =" + userDTO.getUserID());
+                    " user_name = ? WHERE user_id =" + userDTO.getUserID());
             preparedStatement.setString(1,userDTO.getUserName());
+            preparedStatement.executeUpdate();
 
 
             for(int i = 0; i < userDTO.getUserRole().size(); i++){
@@ -298,13 +318,17 @@ public class Database {
     public void deleteUser (int user_id) {
         try (Connection conn = createConnection()) {
             conn.setAutoCommit(false);
-            PreparedStatement delete = conn.prepareStatement("DELETE FROM user WHERE user_id = ?");
+
+
+            PreparedStatement delete = conn.prepareStatement("DELETE FROM user_role WHERE user_id = ?");
             delete.setInt(1,user_id);
             delete.executeUpdate();
 
-            delete = conn.prepareStatement("DELETE FROM user_role WHERE user_id = ?");
+            delete = conn.prepareStatement("DELETE FROM user WHERE user.user_id = ?");
             delete.setInt(1,user_id);
             delete.executeUpdate();
+
+
 
             conn.commit();
         } catch (SQLException e) {
