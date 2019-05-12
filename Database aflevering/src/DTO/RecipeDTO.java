@@ -7,7 +7,7 @@ import java.util.List;
 public class RecipeDTO implements IrecipeDTO {
 
     private int productID;
-    private Date recipeDate;
+    private String recipeDate;
     private List<String> ingredients;
     private int recipeID;
     private String ingredientName;
@@ -25,7 +25,7 @@ public class RecipeDTO implements IrecipeDTO {
 
     }
     @Override
-    public Date getRecipeDate() {
+    public String getRecipeDate() {
         return recipeDate;
     }
 
@@ -41,7 +41,7 @@ public class RecipeDTO implements IrecipeDTO {
     }
 
     @Override
-    public void setRecipeDate(Date recipeDate) {
+    public void setRecipeDate(String recipeDate) {
         this.recipeDate = recipeDate;
 
     }

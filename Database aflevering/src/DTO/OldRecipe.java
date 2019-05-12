@@ -5,7 +5,7 @@ import java.sql.Date;
 public class OldRecipe implements IOldRecipe {
     int version;
     int recipeID;
-    Date oldDate;
+    String oldDate;
 
     @Override
     public int getVersion() {
@@ -18,7 +18,7 @@ public class OldRecipe implements IOldRecipe {
 
     }
     @Override
-    public Date getOldDate(){
+    public String getOldDate(){
         return oldDate;
     }
 }

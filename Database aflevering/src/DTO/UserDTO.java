@@ -5,14 +5,14 @@ import java.util.List;
 public class UserDTO implements IUserDTO {
 
     List<String> userRoles;
-    String role;
     int userID;
-    String name;
+    String userName;
+    String role;
 
 
 
     @Override
-    public void setUserRole(List<String> roles) {
+    public void setUserRole(List<String> userRoles) {
         this.userRoles = userRoles;
 
     }
@@ -29,17 +29,17 @@ public class UserDTO implements IUserDTO {
 
     @Override
     public String getUserName() {
-        return name;
+        return userName;
     }
 
     @Override
     public void setUserName(String userName) {
-        this.name = name;
+        this.userName = userName;
 
     }
 
-    public void addRole(String Role) {
-        this.userRoles.add(Role);
+    public void addRole(String role) {
+        this.userRoles.add(role);
 
     }
 

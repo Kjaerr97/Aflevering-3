@@ -22,12 +22,13 @@ public class Database {
 
         if (userDTO.getUserRole().contains("Pharmacist")) {
             try (Connection connection = createConnection()) {
-                connection.setAutoCommit(false);
+
 
                 PreparedStatement insertRecipe = connection.prepareStatement(
                         "INSERT INTO recipe ( product_id, recipe_date) VALUES(?,?);");
                 insertRecipe.setInt(1, recipeDTO.getProductID());
-                insertRecipe.setDate(2, recipeDTO.getRecipeDate());
+                insertRecipe.setString(2, recipeDTO.getRecipeDate());
+                insertRecipe.executeUpdate();
 
                 for (int i = 0; i < recipeDTO.getIngredients().size(); i++) {
                 PreparedStatement insertIngredients = connection.prepareStatement("INSERT INTO recipe_ingredients" +
@@ -37,7 +38,6 @@ public class Database {
                 insertIngredients.executeUpdate();
                 }
 
-                connection.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -64,7 +64,7 @@ public class Database {
                 resultset.next();
                 recipe.setRecipeID(resultset.getInt("recipe_id"));
                 recipe.setProductID(resultset.getInt("product_id"));
-                recipe.setRecipeDate(resultset.getDate("recipe_date"));
+                recipe.setRecipeDate(resultset.getString("recipe_date"));
                 while (resultset.next()) {
                     recipe.addIngredient(resultset.getString("ingredient_name"));
 
@@ -113,10 +113,10 @@ public class Database {
                 oldDatestmt.setInt(1, recipe.getRecipeID());
 
 //Begynder på den reelle update medtode
-                PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET date = ? " +
+                PreparedStatement updateRecipe = conn.prepareStatement("UPDATE recipe SET recipe_date = ? " +
                         " WHERE recipe_id = ?");
 
-                updateRecipe.setDate(1, recipe.getRecipeDate());
+                updateRecipe.setString(1, recipe.getRecipeDate());
                 updateRecipe.setInt(2, recipe.getRecipeID());
                 updateRecipe.executeUpdate();
 
@@ -253,7 +253,7 @@ public class Database {
     public void createUser(UserDTO userDTO) {
 
         try (Connection connection = createConnection()) {
-            connection.setAutoCommit(false);
+
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO user (user_name) VALUES (?);");
@@ -264,11 +264,11 @@ public class Database {
             for (int i = 0; i < userDTO.getUserRole().size(); i++) {
                 PreparedStatement insertRole = connection.prepareStatement("INSERT INTO user_role" +
                         " VALUES (?,?)");
-                insertRole.setInt(1,userDTO.getUserID());
-                insertRole.setString(1, userDTO.getUserRole().get(i));
+                insertRole.setInt(1, userDTO.getUserID());
+                insertRole.setString(2, userDTO.getUserRole().get(i));
                 insertRole.executeUpdate();
             }
-                connection.commit();
+
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -305,7 +305,7 @@ public class Database {
             delete = conn.prepareStatement("DELETE FROM user_role WHERE user_id = ?");
             delete.setInt(1,user_id);
             delete.executeUpdate();
-            
+
             conn.commit();
         } catch (SQLException e) {
             System.out.println("couldn't delete user" + e.getMessage());

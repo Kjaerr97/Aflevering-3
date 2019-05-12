@@ -8,6 +8,6 @@ public interface IOldRecipe {
 
     int getRecipeID();
 
-    Date getOldDate();
+    String getOldDate();
 
 }

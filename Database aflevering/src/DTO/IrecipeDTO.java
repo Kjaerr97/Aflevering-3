@@ -11,9 +11,9 @@ public interface IrecipeDTO {
 
     void setProductID(int productID);
 
-    Date getRecipeDate();
+    String getRecipeDate();
 
-    void setRecipeDate(Date recipeDate);
+    void setRecipeDate(String recipeDate);
 
     List<String> getIngredients();
 
