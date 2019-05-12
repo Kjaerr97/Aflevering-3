@@ -84,13 +84,21 @@ public class Database {
     public void deleteRecipe(int recipeID, UserDTO userDTO){
         if(userDTO.getUserRole().contains("Pharmacist"))
           try (Connection conn = createConnection()) {
-            conn.setAutoCommit(false);
-            PreparedStatement delete = conn.prepareStatement("DELETE FROM recipe " +
-                    " WHERE recipe_id = ?");
-            delete.setInt(1, recipeID);
 
-            delete = conn.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe_id = ?");
+            conn.setAutoCommit(false);
+
+              PreparedStatement delete2 = conn.prepareStatement("DELETE * FROM recipe_ingredients" +
+                      " WHERE recipe_id = ?");
+              delete2.setInt(1, recipeID);
+              delete2.executeUpdate();
+
+            PreparedStatement delete = conn.prepareStatement("DELETE * FROM recipe " +
+                                                                 " WHERE recipe_id = ?");
             delete.setInt(1, recipeID);
+            delete.executeUpdate();
+
+
+
 
             conn.commit();
         } catch (SQLException e) {
@@ -102,7 +110,7 @@ public class Database {
     }
 
     public void updateRecipe(RecipeDTO recipe, UserDTO userDTO) {
-        if(userDTO.getUserRole().contains("Pharmacist")) {
+        if (userDTO.getUserRole().contains("Pharmacist")) {
 
 
             try (Connection conn = createConnection()) {
@@ -122,15 +130,18 @@ public class Database {
                 updateRecipe.setInt(2, recipe.getRecipeID());
                 updateRecipe.executeUpdate();
 
+                PreparedStatement delete = conn.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe_id = ?");
+                delete.setInt(1, recipe.getRecipeID());
+
+                conn.commit();
 
                 for (int i = 0; i < recipe.getIngredients().size(); i++) {
-                    PreparedStatement updateIngredients = conn.prepareStatement("UPDATE recipe_ingredients SET " +
-                            " ingredients_name = ? WHERE ingredients_name = ?");
-                    updateIngredients.setString(1, recipe.getIngredients().get(i));
-                    updateIngredients.setString(2, recipe.getIngredientName());
-                    updateIngredients.executeUpdate();
+                    PreparedStatement insertNewIngredients = conn.prepareStatement("INSERT INTO recipe_ingredients" +
+                            " VALUES (?,?)");
+                    insertNewIngredients.setInt(1, recipe.getRecipeID());
+                    insertNewIngredients.setString(2, recipe.getIngredients().get(i));
+                    insertNewIngredients.executeUpdate();
                 }
-
                 conn.commit();
             } catch (SQLException e) {
                 System.out.println("Couldn't update recipe" + e.getMessage());

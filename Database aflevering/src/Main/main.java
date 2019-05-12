@@ -12,7 +12,7 @@ public class main {
          UserDTO user = new UserDTO();
         user.setUserName("Nieve");
         ArrayList<String> roles = new ArrayList<>();
-        roles.add("Productleader");
+        roles.add("Productleader") 
           user.setUserRole(roles);
         databaseDAO.getCommodityBatchStatus(user);
       */
@@ -83,7 +83,7 @@ public class main {
         databaseDAO.updateUser(user);
          */
 
- /*createRecipe
+/*      createRecipe
         UserDTO user = new UserDTO();
         ArrayList<String> roles = new ArrayList();
         roles.add("Pharmacist");
@@ -101,9 +101,9 @@ public class main {
         ingredients.add("ranarr");
         recipeDTO.setIngredients(ingredients);
 
-      databaseDAO.createRecipe(recipeDTO, user);
+        databaseDAO.createRecipe(recipeDTO, user);
 */
-
+/* updateRecipe
         UserDTO user = new UserDTO();
         ArrayList<String> roles = new ArrayList();
         roles.add("Pharmacist");
@@ -116,13 +116,23 @@ public class main {
         ArrayList<String> ingredients = new ArrayList<>();
         ingredients.add("Irit");
         ingredients.add("Glukose");
+        ingredients.add("Natrium")
         recipeDTO.setIngredients(ingredients);
 
-        recipeDTO.setIngredientName("Glukose");
-
         databaseDAO.updateRecipe(recipeDTO,user);
+*/
+/*
+        UserDTO user = new UserDTO();
+        ArrayList<String> roles = new ArrayList();
+        roles.add("Pharmacist");
+        user.setUserRole(roles);
+        databaseDAO.deleteRecipe(1,user);
+*/
+
+
 
 
 
     }
+
 }
